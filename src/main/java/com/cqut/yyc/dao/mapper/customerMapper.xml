@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--namespace是对应的mapper接口文件 -->
+<mapper namespace="com.cqut.yyc.dao.ICustomerMapper">
+	<!-- id与接口文件中的方法名相同 -->
+	<insert id="addCustomer"
+		parameterType="com.cqut.yyc.dao.entity.Customer">
+		insert into customer
+		(cusNo, cusName, cusRegion, cusAddr,
+		cusUrl, cusLevel, cusCredit)
+		values(
+		#{ cusNo},
+		#{ cusName},
+		#{
+		cusRegion},
+		#{ cusAddr},
+		#{ cusUrl},
+		#{ cusLevel},
+		#{ cusCredit})
+	</insert>
+	<select id="selectAllCustomer"
+		resultType="com.cqut.yyc.dao.entity.Customer">
+		select * from customer
+	</select>
+
+	<select id="selectCustomerWithPage" parameterType="map"
+		resultType="com.cqut.yyc.dao.entity.Customer">
+		select * from customer
+		limit #{start},#{size}
+	</select>
+
+	<select id="selectAllCount" resultType="java.lang.Integer">
+		select count(*) from
+		customer
+	</select>
+
+	<delete id="deleteCustomer">
+		delete from customer where cusId=#{cusId}
+	</delete>
+
+	<update id="updateCustomer"
+		parameterType="com.cqut.yyc.dao.entity.Customer">
+		update customer set
+		cusNo=#{cusNo},
+		cusName=#{cusName},
+		cusRegion=#{cusRegion},
+		cusAddr=#{cusAddr},
+		cusUrl=#{cusUrl},
+		cusLevel=#{cusLevel},
+		cusCredit=#{cusCredit}
+		where cusId=#{cusId}
+	</update>
+
+	<select id="selectCustomerRegion"
+		resultType="com.cqut.yyc.vo.ivo.RespCustomerRegionVo">
+		select cusRegion,count(*) as number from customer GROUP BY
+		cusRegion
+	</select>
+	
+	<select id="selectCustomerType"
+	    resultType="com.cqut.yyc.vo.ivo.RespCustomerType">
+	    select cusLevel,count(*) as number from customer GROUP BY
+		cusLevel
+	</select>
+
+</mapper>

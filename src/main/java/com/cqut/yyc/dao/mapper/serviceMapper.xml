@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--namespace是对应的mapper接口文件 -->
+<mapper namespace="com.cqut.yyc.dao.IServiceMapper">
+	<!-- id与接口文件中的方法名相同 -->
+	<insert id="addService"
+		parameterType="com.cqut.yyc.dao.entity.Service">
+		insert into service
+		(svType,svContent,svDate)
+		values(
+		#{svType},
+		#{svContent},
+		now())
+	</insert>
+
+
+	<select id="selectCustomerServiceAnalysis" resultType="com.cqut.yyc.vo.ivo.RespServiceAnalysisVo">
+  	select svType as serAnaType,count(svType) as serAnaCount from service GROUP BY svType
+  </select>	
+
+	<select id="selectAllServiceWithPage"  parameterType="map" resultType="com.cqut.yyc.dao.entity.Service">
+	select * from service
+		limit #{start},#{size}
+	</select>
+	<select id="selectAllCount" resultType="java.lang.Integer">
+		select count(*) from
+		service
+	</select>
+</mapper>
